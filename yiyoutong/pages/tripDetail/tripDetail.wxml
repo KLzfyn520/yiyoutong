@@ -1,0 +1,142 @@
+<view class="container">
+  <view class="sign">
+    <view class="sign-header">
+      <view class="sign-header-left">
+        <image style="width:40rpx;height:40rpx;" src="/images/飞机_白.png"></image>
+        <text>{{key}}</text>
+      </view>
+      <view class="sign-header-right">
+        {{dstPort}}
+      </view>
+    </view>
+    <view class="signName">
+      <text>{{src}}</text>
+      <text>{{dst}}</text>
+    </view>
+    <view class="signLabel">
+      <text class="sLabel">start</text>
+      <text class="tLabel">transit</text>
+    </view>
+    <view class="signTime">
+      <text>{{srcTime}}</text>
+      <image style="width:40rpx;height:40rpx;" src="/images/右向箭头.png"></image>
+      <text>{{dstTime}}</text>
+    </view>
+    <view class="signTab">
+      <view class="tab-navbar">
+        <view id="{{index}}" wx:for="{{tabs}}" class="tab-navbar-item {{activeIndex == index ? 'tab-navbar-item-on' : ''}}" bindtap="tabClick">
+          <view class="tab-navbar-title">{{item}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="srcContainer" hidden="{{activeIndex != 0}}">
+    <view class="list" wx:for="{{srcList}}">
+      <image data-index="{{index}}" class="listIcon redIcon" src="/images/减.png" bindtap="deleteSrcTrip"></image>
+      <view class="listContent">
+        <text bindtap="showModal">{{item.src}}</text>
+        <image style="width:60rpx;height:60rpx;" src="/images/飞机.png"></image>
+        <text style='text-align:right;' bindtap="showModal">{{item.dst}}</text>
+      </view>
+      <view class="listDetail" bindtap="toTransport">
+        <text>行程详情</text>
+        <image style="width:30rpx;height:30rpx;" src="/images/右空箭头.png"></image>
+      </view>
+    </view>
+    <view class="list" bindtap="addSrcTrip">
+      <image class="listIcon greenIcon" src="/images/加.png"></image>
+      <view class="listContent">
+        <text>添加行程</text>
+      </view>
+    </view>
+  </view>
+  <view class="dstContainer" hidden="{{activeIndex != 1}}">
+    <view class="list" wx:for="{{dstList}}" hidden="{{isDstNull}}">
+      <image index="{{index}}" class="listIcon redIcon" src="/images/减.png"></image>
+      <view class="listContent">
+        <text bindtap="showModal">{{item.src}}</text>
+        <image style="width:60rpx;height:60rpx;" src="/images/飞机.png"></image>
+        <text style='text-align:right;' bindtap="showModal">{{item.dst}}</text>
+      </view>
+      <view class="listDetail" bindtap="toTransport">
+        <text>行程详情</text>
+        <image style="width:30rpx;height:30rpx;" src="/images/右空箭头.png"></image>
+      </view>
+    </view>
+    <view class="list" style="border-bottom:1px solid #D1D1D2;">
+      <image class="listIcon greenIcon" src="/images/加.png"></image>
+      <view class="listContent">
+        <text>添加行程</text>
+      </view>
+    </view>
+  </view>
+  <view class="btn-container">
+    <button class="submit-btn">提交</button>
+  </view>
+</view>
+
+<view class="modals modals-bottom-dialog" hidden="{{hideModal}}">
+  <view class="modals-cancel" bindtap="hideModal"></view>
+  <view class="bottom-dialog-body bottom-pos" animation="{{animationData}}">
+    <view class="bottom-dialog-content" style="height:600px;">
+      <view class="modals-title" hidden="{{inputShowed}}">
+        <text>地点选择</text>
+      </view>
+
+      <view class="weui-search-bar" style="border:none;background-color:white">
+        <view class="weui-search-bar__form" style="border-radius:30rpx;background:#e6e6ea;">
+          <view class="weui-search-bar__box">
+            <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+            <input type="text" class="weui-search-bar__input" placeholder="搜索城市中英文或拼音" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" />
+            <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+              <icon type="clear" size="14"></icon>
+            </view>
+          </view>
+          <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput" style="border-radius:28rpx;background:#e6e6ea;">
+            <icon class="weui-icon-search" type="search" size="14"></icon>
+            <view class="weui-search-bar__text">搜索城市中英文或拼音</view>
+          </label>
+        </view>
+        <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput" style="color:black;font-size:14px;">取消</view>
+      </view>
+      <view class="search-result" wx:if="{{inputVal.length > 0}}">
+        <view class="search-result-item" wx:for="{{searchResult}}">
+          <text>{{item}}</text>
+        </view>
+      </view>
+
+      <scroll-view class="modals-scroll-view" scroll-y="true" hidden="true" scroll-into-view="{{scrollId}}">
+        <view class="modals-container hot-city">
+          <view class="modals-subtitle">
+            <text>热门城市</text>
+          </view>
+          <view class="modals-city-list">
+            <view class="modals-city-block {{hotCityIndex == index? 'modals-city-block-hover' : ''}}" wx:for="{{hotCities}}" data-name="{{item}}" bindtap="chooseCity">
+              {{item}}
+            </view>
+          </view>
+        </view>
+        <view class="modals-container alpha-index">
+          <view class="modals-subtitle">
+            <text>字母索引</text>
+          </view>
+          <view class="modals-alpha-list">
+            <view class="modals-alpha-block {{alphaIndex == index? 'modals-alpha-block-hover' : ''}}" wx:for="{{alpha}}" data-alpha="{{item}}" bindtap="chooseAlpha">
+              {{item}}
+            </view>
+          </view>
+        </view>
+        <view class="modals-container city-list" wx:for="{{cities}}">
+          <view id="{{item.alpha}}" class="modals-subtitle">
+            <text>{{item.alpha}}</text>
+          </view>
+          <view class="modals-city-list {{cityIndex[0] == index? 'modals-city-list-hover' : ''}}">
+            <view class="modals-city-block {{cityIndex[1] == index? 'modals-city-list-block-hover' : ''}}" wx:for="{{item.cities}}" data-name="{{item}}" bindtap="chooseCity">
+              {{item}}
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+</view>

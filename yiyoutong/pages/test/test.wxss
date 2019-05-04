@@ -1,0 +1,28 @@
+.container{
+  display:flex;
+  flex-direction:column;
+}
+
+/* 列表的容器一样要有固定高度， 大于这个高度才能翻页 */
+.content{
+  display:flex;
+  flex-direction:column;
+  height:1000rpx;
+}
+
+.item{
+  /* 布局是flex */
+  display:flex;
+  /* 方向是横向 */
+  flex-direction:row;
+  /* 适应宽度的方式 */
+  justify-content: space-around;
+  height:200rpx;
+  align-items: center;
+  border:1px solid black;
+}
+
+.load{
+  width:100%;
+  text-align: center;
+}

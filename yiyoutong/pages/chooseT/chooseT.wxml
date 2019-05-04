@@ -1,0 +1,54 @@
+<view class='main-title'>
+ <view>{{begin}}</view>
+ <view>-</view>
+ <view>{{end}}</view>
+</view>
+<view class='choose-transport'>
+ <button class="transport-btn {{currentSelectTripType == 'moren' ? 'active' : ''}}" bindtap='selectedMoren' data-id='moren'>默认</button>
+ <button class="transport-btn {{currentSelectTripType == 'feiji' ? 'active' : ''}}" bindtap='selectedFeiJi' data-id='feiji'>
+  <image class='btnImg' src='../../icons/飞机.png'></image>
+  <view>飞机</view>
+ </button>
+ <button class="transport-btn {{currentSelectTripType == 'huoche' ? 'active' : ''}}" bindtap='selectedHuoChe' data-id='huoche'>
+  <image class='btnImg' src='../../icons/火车.png'></image>
+  <view>火车</view>
+ </button>
+ <button class="transport-btn {{currentSelectTripType == 'qiche' ? 'active' : ''}}" bindtap='selectedQiChe' data-id='qiche'>
+  <image class='btnImg' src='../../icons/巴士.png'></image>
+  <view>汽车</view>
+ </button>
+</view>
+<view class='sort'>
+ <button class="sort-btn {{currentSelectSortType == 'SortMoren' ? 'active' : ''}}" bindtap='selectedSortMoren' data-id='SortMoren'>默认</button>
+ <button class="sort-btn {{currentSelectSortType == 'SortPrice' ? 'active' : ''}}" bindtap='selectedSortPrice' data-id='SortPrice'>
+  <view>价格</view>
+ </button>
+ <button class="sort-btn {{currentSelectSortType == 'SortDuration' ? 'active' : ''}}" bindtap='selectedSortDuration' data-id='SortDuration'>
+  <view>时长</view>
+ </button>
+ <button class="sort-btn {{currentSelectSortType == 'SortTime' ? 'active' : ''}}" bindtap='selectedSortTime' data-id='SortTime'>
+  <view>出发时间</view>
+ </button>
+ <button class="sort-btn {{currentSelectSortType == 'SortHot' ? 'active' : ''}}" bindtap='selectedSortHot' data-id='SortHot'>
+  <view>最火</view>
+ </button>
+</view>
+<form wx:for="{{testArray1}}" wx:key="id">
+ <view class='form-box' bindtap="toTripDetail">
+ <view class='item-left'>
+  <view class='time'>
+   <view>{{item.time1}}</view>
+   <image class='img1' src='{{item.img}}'></image>
+   <view>{{item.time2}}</view>
+  </view>
+  <view class='line'>
+   <image class='img2' src='../../icons/时间.png'></image>
+   <view>{{item.spend_time}}</view>
+  </view>
+  <view class='line'>
+   <image class='img2' src='../../icons/人民币.png'></image>
+   <view>{{item.prize}}</view>
+  </view>
+ </view>
+</view>
+</form>
