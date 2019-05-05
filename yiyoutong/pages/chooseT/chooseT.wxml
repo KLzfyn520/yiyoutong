@@ -1,0 +1,79 @@
+<view class='main-title'>
+ <view>{{begin}}</view>
+ <view>-</view>
+ <view>{{end}}</view>
+</view>
+<view class='sort'>
+ <button class="sort-btn {{currentSelectSortType == 'SortMoren' ? 'active' : ''}}" bindtap='selectedSortMoren' data-id='SortMoren'>默认</button>
+ <button class="sort-btn {{currentSelectSortType == 'SortPrice' ? 'active' : ''}}" bindtap='selectedSortPrice' data-id='SortPrice'>
+  <view>价格</view>
+ </button>
+ <button class="sort-btn {{currentSelectSortType == 'SortDuration' ? 'active' : ''}}" bindtap='selectedSortDuration' data-id='SortDuration'>
+  <view>时长</view>
+ </button>
+ <button class="sort-btn {{currentSelectSortType == 'SortTime' ? 'active' : ''}}" bindtap='selectedSortTime' data-id='SortTime'>
+  <view>出发时间</view>
+ </button>
+ <button class="sort-btn {{currentSelectSortType == 'SortHot' ? 'active' : ''}}" bindtap='selectedSortHot' data-id='SortHot'>
+  <view>最火</view>
+ </button>
+</view>
+<form wx:for="{{testArray1}}" wx:key="id">
+  <view class='form-box' >
+    <view wx:if="{{item.isDirect == true}}">
+      <view class='direct-box' bindtap="toTripDetail">
+        <view class='left-box'>
+          <view class='item-left'>
+            <text class='time-text'>{{item.beginTime}}</text>
+            <text class='place-text'>{{item.beginPlace}}</text>
+          </view>
+          <view class='item-middle'>
+            <text class='duration-text'>{{item.spend_time}}</text>
+            <image src='../../icons/长半箭头.png' class='duration-img'></image>
+            <text class='duration-text'>{{item.type}}</text>
+          </view>
+          <view class='item-right'>
+            <text class='time-text'>{{item.endTime}}</text>
+            <text class='place-text'>{{item.endPlace}}</text>
+          </view>
+        </view>
+        <view class='rightbox'>
+          <image src='../../icons/人民币.png' class='img2'></image>
+          <text class='price-text'>{{item.price}}</text>
+        </view>
+      </view>
+    </view>
+    <view wx:else>
+      <view class='notDirect-box'>
+        <view class='direct-box' bindtap="toTripDetail">
+          <view class='left-box'>
+            <view class='item-left'>
+              <text class='time-text'>{{item.firstTrip.beginTime}}</text>
+              <text class='place-text'>{{item.firstTrip.beginPlace}}</text>
+            </view>
+            <view class='item-middle'>
+              <text class='duration-text'>{{item.total_spendTime}}</text>
+              <view class='change-box'>
+                <text class='change-text'>{{item.firstTrip.endCity}}中转</text>
+              </view>
+              <text class='duration-text'>{{item.type}}</text>
+            </view>
+            <view class='item-right'>
+              <text class='time-text'>{{item.secondTrip.endTime}}</text>
+              <text class='place-text'>{{item.secondTrip.endPlace}}</text>
+            </view>
+          </view>
+          <view class='rightbox'>
+            <image src='../../icons/人民币.png' class='img2'></image>
+            <text class='price-text'>{{item.totalPrice}}</text>
+          </view>
+        </view>
+        <view class='showDetail'>
+          <text class='show-text'>查看详细信息</text>
+          <image src='../../icons/下箭头.png' class='img2'></image>
+        </view>
+      </view>
+      
+    </view>
+  </view>
+</form>

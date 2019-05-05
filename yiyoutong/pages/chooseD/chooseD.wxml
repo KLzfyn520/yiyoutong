@@ -1,0 +1,150 @@
+<view class="container">
+<image class='Img' src='../../icons/夹子.png'></image>
+<view class='choose-transport'>
+ <button class="transport-btn {{currentSelectTripType == 'moren' ? 'active' : ''}}" bindtap='selectedMoren' data-id='moren'>
+  <image class='btnImg' src='../../icons/默认.png'></image>
+  <view>默认</view>
+ </button>
+ <button class="transport-btn {{currentSelectTripType == 'feiji' ? 'active' : ''}}" bindtap='selectedFeiJi' data-id='feiji'>
+  <image class='btnImg' src='../../icons/飞机.png'></image>
+  <view>飞机</view>
+ </button>
+ <button class="transport-btn {{currentSelectTripType == 'huoche' ? 'active' : ''}}" bindtap='selectedHuoChe' data-id='huoche'>
+  <image class='btnImg' src='../../icons/火车.png'></image>
+  <view>火车</view>
+ </button>
+ <button class="transport-btn {{currentSelectTripType == 'qiche' ? 'active' : ''}}" bindtap='selectedQiChe' data-id='qiche'>
+  <image class='btnImg' src='../../icons/巴士.png'></image>
+  <view>汽车</view>
+ </button>
+</view>
+<form bindsubmit="formSubmit" bindreset="formReset" class='form-content'>
+  <view class='city-flex-box'>
+    <input value='{{begin}}' class='began-city' name='beginCity' disabled='disabled' data-choose="begin" bindtap='showModal'></input>
+    <image class='arrow' src='../../icons/箭头.png'></image>
+    <input value='{{end}}' class='end-city' name='endCity' disabled='disabled' data-choose="end" bindtap='showModal'></input>
+  </view>
+  <input class='time' value='{{today}}' disabled='disabled' bindtap='showTimeModal'></input>
+  <view class='flex-box-type'>
+   <view class='flex-box-header'>选择出行类型</view>
+   <radio-group class="radio-group" bindchange="radioChange">
+     <label class="radio" wx:for="{{items}}" wx:key="{{items.name}}">
+       <radio value="{{item.id}}" checked="{{item.id == itemId}}"/>
+       {{item.value}}
+     </label>
+   </radio-group>
+  </view>
+  <view class="btn-area">
+  <button formType="submit" class='btn-query' bindtap='toChooseT'>确定</button>
+  </view>
+</form>
+<view class='navigation-bar'>
+  <button class='btn1'>
+   <image class='btnImg' src='../../icons/arrange-schedule1.png'></image>
+   <view>行程安排</view>
+  </button>
+  <button class='btn2' bindtap="toTripHistory">
+   <image class='btnImg' src='../../icons/my-schedule1.png'></image>
+   <view>我的行程</view>
+  </button>
+</view>
+</view>
+
+<view class="modals modals-bottom-dialog" hidden="{{hideModal}}">
+  <view class="modals-cancel" bindtap="hideModal"></view>
+  <view class="bottom-dialog-body bottom-pos" animation="{{animationData}}">
+    <view class="bottom-dialog-content" style="height:600px;">
+      <view class="modals-title" hidden="{{inputShowed}}">
+        <text>地点选择</text>
+      </view>
+
+      <view class="weui-search-bar" style="border:none;background-color:white">
+        <view class="weui-search-bar__form" style="border-radius:30rpx;background:#e6e6ea;">
+          <view class="weui-search-bar__box">
+            <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+            <input type="text" class="weui-search-bar__input" placeholder="搜索城市中英文或拼音" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" />
+            <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+              <icon type="clear" size="14"></icon>
+            </view>
+          </view>
+          <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput" style="border-radius:28rpx;background:#e6e6ea;">
+            <icon class="weui-icon-search" type="search" size="14"></icon>
+            <view class="weui-search-bar__text">搜索城市中英文或拼音</view>
+          </label>
+        </view>
+        <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput" style="color:black;font-size:14px;">取消</view>
+      </view>
+      <view class="search-result" wx:if="{{inputVal.length > 0}}">
+        <view class="search-result-item" wx:for="{{searchResult}}">
+          <text>{{item}}</text>
+        </view>
+      </view>
+
+      <scroll-view class="modals-scroll-view" scroll-y="true" hidden="{{inputShowed}}" scroll-into-view="{{scrollId}}">
+        <view class="modals-container hot-city">
+          <view class="modals-subtitle">
+            <text>热门城市</text>
+          </view>
+          <view class="modals-city-list">
+            <view class="modals-city-block {{hotCityIndex == index? 'modals-city-block-hover' : ''}}" wx:for="{{hotCities}}" data-name="{{item}}" bindtap="chooseCity">
+              {{item}}
+            </view>
+          </view>
+        </view>
+        <view class="modals-container alpha-index">
+          <view class="modals-subtitle">
+            <text>字母索引</text>
+          </view>
+          <view class="modals-alpha-list">
+            <view class="modals-alpha-block {{alphaIndex == index? 'modals-alpha-block-hover' : ''}}" wx:for="{{alpha}}" data-alpha="{{item}}" bindtap="chooseAlpha">
+              {{item}}
+            </view>
+          </view>
+        </view>
+        <view class="modals-container city-list" wx:for="{{cities}}">
+          <view id="{{item.alpha}}" class="modals-subtitle">
+            <text>{{item.alpha}}</text>
+          </view>
+          <view class="modals-city-list {{cityIndex[0] == index? 'modals-city-list-hover' : ''}}">
+            <view class="modals-city-block {{cityIndex[1] == index? 'modals-city-list-block-hover' : ''}}" wx:for="{{item.cities}}" data-name="{{item}}" bindtap="chooseCity">
+              {{item}}
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+</view>
+
+
+<view class="modals modals-bottom-dialog" hidden="{{hideTimeModal}}">
+  <view class="modals-cancel" bindtap="hideTimeModal"></view>
+  <view class="bottom-dialog-body bottom-pos" animation="{{animationData}}">
+    <view class="bottom-dialog-content" style="height:600px;">
+      <view class="modals-title" hidden="{{inputShowed}}">
+        <text>选择日期</text>
+      </view>
+      
+      <view class='date-day'>
+        <view wx:for="{{dateWeek}}">
+          <view>{{item}}</view>
+        </view>
+      </view>
+
+      <scroll-view class="time-modals-scroll-view" scroll-y="true" hidden="{{inputShowed}}" scroll-into-view="{{scrollId}}">
+        
+        <view class="modals-container city-list" wx:for="{{initDate}}">
+          <view id="{{item.year}}{{item.month}}" class="time-modals-subtitle">
+            <text>{{item.year}}年{{item.month}}月</text>
+          </view>
+
+          <view class="modals-time-list">
+            <view wx:for="{{item.dayArr}}" class="modals-time-block {{isToday == item.isToday ? 'active' : ''}}"  data-year='{{item.year}}' data-month="{{item.month}}" data-day='{{item.num}}' bindtap="chooseDate">
+              {{item.num}}
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+</view>

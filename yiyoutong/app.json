@@ -1,0 +1,41 @@
+{
+  "pages": [
+    "pages/chooseD/chooseD",
+    "pages/chooseT/chooseT",
+    "pages/tripDetail/tripDetail",
+    "pages/transportDetail/transportDetail",
+    "pages/transportPath/transportPath",
+    "pages/tripHistory/tripHistory"
+  ],
+  "sitemapLocation": "sitemap.json",
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示"
+    }
+  },
+  "tabBar": {
+    "color": "#707070",
+    "selectedColor": "#ee7f5d",
+    "borderStyle": "black",
+    "list": [
+      {
+        "selectedIconPath": "images/first_tab_selected.png",
+        "iconPath": "images/first_tab.png",
+        "pagePath": "pages/chooseD/chooseD",
+        "text": "行程选择"
+      },
+      {
+        "selectedIconPath": "images/second_tab_selected.png",
+        "iconPath": "images/second_tab.png",
+        "pagePath": "pages/tripHistory/tripHistory",
+        "text": "历史行程"
+      },
+      {
+        "selectedIconPath": "images/third_tab_selected.png",
+        "iconPath": "images/third_tab.png",
+        "pagePath": "pages/tripHistory/tripHistory",
+        "text": "个人中心"
+      }
+    ]
+  }
+}
