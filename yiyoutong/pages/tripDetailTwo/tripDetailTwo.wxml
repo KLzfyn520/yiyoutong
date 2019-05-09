@@ -1,0 +1,233 @@
+<view class="container">
+  <view class="container-box" hidden="{{nextPage}}">
+  <view class="sign">
+    <view class="sign-header">
+      <view class="sign-header-left">
+        <image style="width:40rpx;height:40rpx;" src="{{type == '飞机'?'/images/飞机_白.png':'/images/火车_白.png'}}"></image>
+        <text>{{key}}</text>
+      </view>
+      <view class="sign-header-right">
+        {{dstPort}}
+      </view>
+    </view>
+    <view class="signName">
+      <text style='text-align:right;'>{{src}}</text>
+      <text style='text-align:left;'>{{dst}}</text>
+    </view>
+    <view class="signLabel">
+      <text class="sLabel">start</text>
+      <text class="tLabel">transit</text>
+    </view>
+    <view class="signTime">
+      <text>{{srcTime}}</text>
+      <image style="width:40rpx;height:40rpx;" src="/images/右向箭头.png"></image>
+      <text>{{dstTime}}</text>
+    </view>
+    <view class="signTab">
+      <view class="tab-navbar">
+        <view id="{{index}}" wx:for="{{tabs}}" class="tab-navbar-item {{activeTab == index ? 'tab-navbar-item-on' : ''}}" bindtap="tabClick">
+          <view class="tab-navbar-title">{{item}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="srcContainer" hidden="{{activeTab != 0}}">
+    <view class="list" wx:for="{{srcList}}">
+      <image data-index="{{index}}" class="listIcon redIcon" src="/images/减.png" bindtap="deleteSrcTrip"></image>
+      <view class="listContent">
+        <text bindtap="showModal" data-index="{{index}}" data-type="src" data-array="src">{{item.src}}</text>
+        <image style="width:50rpx;height:50rpx;" src="/images/前进.png"></image>
+        <text style='text-align:right;' bindtap="showModal" data-index="{{index}}" data-type="dst" data-array="src">{{item.dst}}</text>
+      </view>
+      <view class="listDetail" bindtap="toTransport" data-index="{{index}}" data-array="src">
+        <text>行程详情</text>
+        <image style="width:30rpx;height:30rpx;" src="/images/右空箭头.png"></image>
+      </view>
+    </view>
+    <view class="list" bindtap="addSrcTrip">
+      <image class="listIcon greenIcon" src="/images/加.png"></image>
+      <view class="listContent">
+        <text>添加行程</text>
+      </view>
+    </view>
+  </view>
+  <view class="dstContainer" hidden="{{activeTab != 1}}">
+    <view class="list" wx:for="{{dstList}}" hidden="{{isDstNull}}">
+      <image index="{{index}}" class="listIcon redIcon" src="/images/减.png" bindtap="deleteDstTrip"></image>
+      <view class="listContent">
+        <text bindtap="showModal" data-index="{{index}}" data-type="src" data-array="dst">{{item.src}}</text>
+        <image style="width:60rpx;height:60rpx;" src="/images/前进.png"></image>
+        <text style='text-align:right;' bindtap="showModal" data-index="{{index}}" data-type="dst" data-array="dst">{{item.dst}}</text>
+      </view>
+      <view class="listDetail" bindtap="toTransport" data-index="{{index}}" data-array="dst">
+        <text>行程详情</text>
+        <image style="width:30rpx;height:30rpx;" src="/images/右空箭头.png"></image>
+      </view>
+    </view>
+    <view class="list" bindtap="addDstTrip">
+      <image class="listIcon greenIcon" src="/images/加.png"></image>
+      <view class="listContent" >
+        <text>添加行程</text>
+      </view>
+    </view>
+  </view>
+  </view>
+
+  <view class="container-box fuzhi" hidden="{{!nextPage}}">
+  <view class="sign">
+    <view class="sign-header">
+      <view class="sign-header-left">
+        <image style="width:40rpx;height:40rpx;" src="{{typeT == '飞机'?'/images/飞机_白.png':'/images/火车_白.png'}}"></image>
+        <text>{{keyT}}</text>
+      </view>
+      <view class="sign-header-right">
+        {{dstPortT}}
+      </view>
+    </view>
+    <view class="signName">
+      <text style='text-align:right;'>{{srcT}}</text>
+      <text style='text-align:left;'>{{dstT}}</text>
+    </view>
+    <view class="signLabel">
+      <text class="sLabel">start</text>
+      <text class="tLabel">transit</text>
+    </view>
+    <view class="signTime">
+      <text>{{srcTimeT}}</text>
+      <image style="width:40rpx;height:40rpx;" src="/images/右向箭头.png"></image>
+      <text>{{dstTimeT}}</text>
+    </view>
+    <view class="signTab">
+      <view class="tab-navbar">
+        <view id="{{index}}" wx:for="{{tabsT}}" class="tab-navbar-item {{activeTabT == index ? 'tab-navbar-item-on' : ''}}" bindtap="tabClickT">
+          <view class="tab-navbar-title">{{item}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="srcContainer" hidden="{{activeTabT != 0}}">
+    <view class="list" wx:for="{{srcListT}}">
+      <image data-index="{{index}}" class="listIcon redIcon" src="/images/减.png" bindtap="deleteSrcTripT"></image>
+      <view class="listContent">
+        <text bindtap="showModal" data-index="{{index}}" data-type="src" data-array="src">{{item.src}}</text>
+        <image style="width:50rpx;height:50rpx;" src="/images/前进.png"></image>
+        <text style='text-align:right;' bindtap="showModalT" data-index="{{index}}" data-type="dst" data-array="src">{{item.dst}}</text>
+      </view>
+      <view class="listDetail" bindtap="toTransportT" data-index="{{index}}" data-array="src">
+        <text>行程详情</text>
+        <image style="width:30rpx;height:30rpx;" src="/images/右空箭头.png"></image>
+      </view>
+    </view>
+    <view class="list" bindtap="addSrcTripT">
+      <image class="listIcon greenIcon" src="/images/加.png"></image>
+      <view class="listContent">
+        <text>添加行程</text>
+      </view>
+    </view>
+  </view>
+  <view class="dstContainer" hidden="{{activeTabT != 1}}">
+    <view class="list" wx:for="{{dstListT}}">
+      <image index="{{index}}" class="listIcon redIcon" src="/images/减.png" bindtap="deleteDstTripT"></image>
+      <view class="listContent">
+        <text bindtap="showModalT" data-index="{{index}}" data-type="src" data-array="dst">{{item.src}}</text>
+        <image style="width:60rpx;height:60rpx;" src="/images/前进.png"></image>
+        <text style='text-align:right;' bindtap="showModalT" data-index="{{index}}" data-type="dst" data-array="dst">{{item.dst}}</text>
+      </view>
+      <view class="listDetail" bindtap="toTransportT" data-index="{{index}}" data-array="dst">
+        <text>行程详情</text>
+        <image style="width:30rpx;height:30rpx;" src="/images/右空箭头.png"></image>
+      </view>
+    </view>
+    <view class="list" bindtap="addDstTripT">
+      <image class="listIcon greenIcon" src="/images/加.png"></image>
+      <view class="listContent">
+        <text>添加行程</text>
+      </view>
+    </view>
+  </view>
+  </view>
+</view>
+
+<view class="btn-container btn-submit">
+  <button class="btn-content btn-content-submit" bindtap="submit">提交</button>
+</view>
+<view class="btn-container btn-next">
+  <button class="btn-content btn-content-next" bindtap="next" hidden="{{nextPage}}">第一程</button>
+  <button class="btn-content btn-content-prev" bindtap="next" hidden="{{!nextPage}}">第二程</button>
+</view>
+
+<view class="modals modals-bottom-dialog" hidden="{{hideModal || nextPage}}">
+  <view class="modals-cancel" bindtap="hideModal"></view>
+  <view class="bottom-dialog-body bottom-pos" animation="{{animationData}}">
+    <view class="bottom-dialog-content" style="height:600px;">
+      <view class="modals-title" hidden="{{inputShowed}}">
+        <text>地点选择</text>
+      </view>
+
+      <view class="weui-search-bar" style="border:none;background-color:white">
+        <view class="weui-search-bar__form" style="border-radius:30rpx;background:#e6e6ea;">
+          <view class="weui-search-bar__box">
+            <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+            <input type="text" class="weui-search-bar__input" placeholder="搜索城市中英文或拼音" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" />
+            <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+              <icon type="clear" size="14"></icon>
+            </view>
+          </view>
+          <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput" style="border-radius:28rpx;background:#e6e6ea;">
+            <icon class="weui-icon-search" type="search" size="14"></icon>
+            <view class="weui-search-bar__text">搜索城市中英文或拼音</view>
+          </label>
+        </view>
+        <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput" style="color:black;font-size:14px;">取消</view>
+      </view>
+      <scroll-view scroll-y class="search-result" wx:if="{{inputVal.length > 0}}">
+        <view class="search-result-item" wx:for="{{searchResult}}" bindtap="searchResultClick" data-value="{{item.name}}">
+          <image style="width:40rpx;height:40rpx;margin-right:20rpx" src="/images/位置.png"></image>
+          <view class="search-result-item-content">
+          <view class="search-result-item-name">{{item.name}} {{item.pName}} {{item.cityName}}</view>
+          <view class="search-result-item-type">{{item.type}}</view>
+          </view>
+        </view>
+      </scroll-view>
+
+    </view>
+  </view>
+</view>
+
+<view class="modals modals-bottom-dialog" hidden="{{hideModalT || !nextPage}}">
+  <view class="modals-cancel" bindtap="hideModalT"></view>
+  <view class="bottom-dialog-body bottom-pos" animation="{{animationData}}">
+    <view class="bottom-dialog-content" style="height:600px;">
+      <view class="modals-title" hidden="{{inputShowedT}}">
+        <text>地点选择</text>
+      </view>
+
+      <view class="weui-search-bar" style="border:none;background-color:white">
+        <view class="weui-search-bar__form" style="border-radius:30rpx;background:#e6e6ea;">
+          <view class="weui-search-bar__box">
+            <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+            <input type="text" class="weui-search-bar__input" placeholder="搜索城市中英文或拼音" value="{{inputValT}}" focus="{{inputShowedT}}" bindinput="inputTypingT" />
+            <view class="weui-icon-clear" wx:if="{{inputValT.length > 0}}" bindtap="clearInputT">
+              <icon type="clear" size="14"></icon>
+            </view>
+          </view>
+          <label class="weui-search-bar__label" hidden="{{inputShowedT}}" bindtap="showInputT" style="border-radius:28rpx;background:#e6e6ea;">
+            <icon class="weui-icon-search" type="search" size="14"></icon>
+            <view class="weui-search-bar__text">搜索城市中英文或拼音</view>
+          </label>
+        </view>
+        <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowedT}}" bindtap="hideInputT" style="color:black;font-size:14px;">取消</view>
+      </view>
+      <scroll-view scroll-y class="search-result" wx:if="{{inputValT.length > 0}}">
+        <view class="search-result-item" wx:for="{{searchResultT}}" bindtap="searchResultClickT" data-value="{{item.name}}">
+          <image style="width:40rpx;height:40rpx;margin-right:20rpx" src="/images/位置.png"></image>
+          <view class="search-result-item-content">
+          <view class="search-result-item-name">{{item.name}} {{item.pName}} {{item.cityName}}</view>
+          <view class="search-result-item-type">{{item.type}}</view>
+          </view>
+        </view>
+      </scroll-view>
+
+    </view>
+  </view>
+</view>

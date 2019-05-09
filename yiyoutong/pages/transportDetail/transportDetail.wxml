@@ -30,8 +30,8 @@
             <image style="width:30rpx;height:30rpx" src="/images/下空箭头.png"></image>
         </view>
     </view>
-    <view class="thirdPart">
-        <view class="list" wx:for="{{means}}" bindtap="toPathDetail">
+    <scroll-view scroll-y class="thirdPart">
+        <view class="list" wx:for="{{means}}" wx:key="{{item.id}}" bindtap="toPathDetail" data-index="{{item.id}}">
           <view class="list-left">
             <view class="type">
                 <image src="{{item.image}}"></image>
@@ -63,7 +63,7 @@
                 <view class="label-block fastest" hidden="{{!item.isFastest}}">时间最快</view>
           </view>
         </view>
-    </view>
+    </scroll-view>
 </view>
 
 <view class="filterTime" hidden="{{hideTimeFilter}}" animation="{{animationData}}">

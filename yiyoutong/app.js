@@ -26,5 +26,10 @@ App({
    */
   onError: function (msg) {
     
+  },
+
+  globalData: {
+    url: 'http://120.79.181.54:8080',
+    userId: ''
   }
 })

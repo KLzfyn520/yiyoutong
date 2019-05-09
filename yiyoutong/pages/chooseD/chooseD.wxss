@@ -15,46 +15,24 @@ page{
  border-top-left-radius: 20rpx;
  border-top-right-radius: 20rpx;
  align-items: center;
- background-color: rgb(61, 67, 98);
+ background-color: #3d4362;
  /* border: 3rpx solid #CCCCCC; */
  height: 200rpx;
 }
-.transport-btn{
-  width: 25%;
-  height: 200rpx;
-  margin-left:0rpx; 
-  background-color: rgb(61, 67, 98);
-  color: #ffffff;
-  border: none;
-  border-radius: 0rpx;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 27rpx;
-  transition: 0.2s all linear;
-}
-.transport-btn::after{
-  border: none;
-}
-.transport-btn.active{
-  border-bottom: 6rpx solid #ee7f5d;
-}
-
 .btnImg {
   width: 50rpx;
   height: 50rpx;
   margin-left: 0rpx;
 }
 .form-content{
- margin-top:0rpx; 
+ margin-top:80rpx; 
  display: flex;
  margin-left: 2%;
  width: 96%;
  background-color: #FFFFFF;
- /* border-radius: 20rpx; */
- border-bottom-left-radius: 20rpx;
- border-bottom-right-radius: 20rpx;
+ border-radius: 20rpx;
+ /* border-bottom-left-radius: 20rpx;
+ border-bottom-right-radius: 20rpx; */
  border-top: 1rpx solid #CCCCCC;
  /* border: 3rpx solid #CCCCCC; */
  height: 530rpx;
@@ -88,7 +66,6 @@ page{
 .flex-box-header{
  width: 300rpx;
  font-size: 35rpx;
- margin-top: 10rpx;
  color: #000000;
 }
 .time{
@@ -116,22 +93,21 @@ page{
  display: flex;
  flex-direction: row;
  align-items: center;
- margin-top: 28rpx;
- margin-left: 20rpx;
+ margin-left: 40rpx;
  width: 400rpx;
  height: 70rpx;
 }
 .radio{
   font-size: 40rpx;
   color: #575757;
-  margin-left: 10rpx;
+  margin-left:20rpx;
   zoom: .6;
 }
 .btn-query{
   margin-left: 0%;
   margin-top: 55rpx; 
   width: 660rpx;
-  background-color:rgb(238, 127, 93);
+  background-color:#ee7f5d;
   color:#FFFFFF;
   border-radius: 50rpx;
 }
@@ -187,7 +163,7 @@ page{
 
 .modals{position:fixed; z-index: 999; top:0; left: 0; right:0; bottom: 0;}
 .modals-cancel{position:absolute; z-index:1000; top:0; left: 0; right:0; bottom: 0; background-color: rgba(0,0,0,.5);}
-.bottom-dialog-body{position:absolute; z-index:10001; bottom:0; left:0; right:0; padding:20rpx; height:1100rpx; background-color: #fff;}
+.bottom-dialog-body{position:absolute; z-index:10001; bottom:0; left:0; right:0; padding:20rpx; height:1000rpx; background-color: #fff;}
 /*动画前初始位置*/
 .bottom-pos{-webkit-transform:translateY(100%);transform:translateY(100%);}
 .bottom-dialog-content{
@@ -260,8 +236,23 @@ page{
   border-top:1px solid #F1F1D2;
 }
 .search-result-item{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
   padding:10rpx 20rpx;
   border-bottom:1px solid #D1D1D2;
+}
+.search-result-item-name{
+  font-size:14pt;
+}
+.search-result-item-type{
+  height:40rpx;
+  background-color: #3d4362;
+  border-radius:5rpx;
+  color: white;
+  font-size:10pt;
+  margin-right:20rpx;
+  padding:0rpx 6rpx;
 }
 .date-day{
   display: flex;
@@ -298,5 +289,5 @@ page{
   border-radius:10rpx;
 }
 .modals-time-block.active{
-  background-color: rgb(238, 127, 93)
+  background-color: #ee7f5d
 }

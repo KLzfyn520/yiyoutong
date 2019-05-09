@@ -1,6 +1,9 @@
 .container{
-    display:flex;
-    flex-direction:column;
+
+}
+.container-box{
+  display:flex;
+  flex-direction:column;
 }
 .srcContainer{
     display:flex;
@@ -150,14 +153,21 @@
 .btn-container{
   position:absolute;
   left:0rpx;
-  bottom:100rpx;
   width:100%;
 }
-.submit-btn{
+.btn-submit{
+  bottom:100rpx;
+}
+.btn-next{
+  bottom:200rpx;
+}
+.btn-content{
   width:80%;
   color:white;
   background-color: #0076FF;
 }
+
+
 
 .modals{position:fixed; z-index: 999; top:0; left: 0; right:0; bottom: 0;}
 .modals-cancel{position:absolute; z-index:1000; top:0; left: 0; right:0; bottom: 0; background-color: rgba(0,0,0,.5);}

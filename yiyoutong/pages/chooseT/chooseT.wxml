@@ -1,79 +1,162 @@
-<view class='main-title'>
- <view>{{begin}}</view>
- <view>-</view>
- <view>{{end}}</view>
+<view class="container">
+  <view class='main-title' style="width:{{winWidth}}px;">
+    <view>{{begin}}</view>
+    <view>-</view>
+    <view>{{end}}</view>
+  </view>
+  <view class='choose-transport' style="width:{{winWidth}}px;">
+    <button class="transport-btn {{currentSelectTripType == 'moren' ? 'active' : ''}}" bindtap='selectedMoren' data-id='moren'>
+      <image class='btnImg' src='../../icons/默认.png'></image>
+      <view>默认</view>
+    </button>
+    <button class="transport-btn {{currentSelectTripType == 'feiji' ? 'active' : ''}}" bindtap='selectedFeiJi' data-id='feiji'>
+      <image class='btnImg' src='../../icons/飞机.png'></image>
+      <view>飞机</view>
+    </button>
+    <button class="transport-btn {{currentSelectTripType == 'huoche' ? 'active' : ''}}" bindtap='selectedHuoChe' data-id='huoche'>
+      <image class='btnImg' src='../../icons/火车.png'></image>
+      <view>火车</view>
+    </button>
+    <button class="transport-btn {{currentSelectTripType == 'zhongzhuan' ? 'active' : ''}}" bindtap='selectedZhongZhuan' data-id='zhongzhuan'>
+      <image class='btnImg' src='../../icons/中转.png'></image>
+      <view>中转</view>
+    </button>
+  </view>
+  <scroll-view scroll-y="true" class="array-box">
+    <view wx:for="{{array}}" wx:key="id">
+      <view class='form-box'>
+        <view wx:if="{{item.isDirect == true}}">
+          <view class='direct-box' bindtap="toTripDetail" data-index="{{index}}">
+            <view class='left-box'>
+              <view class='item-left'>
+                <text class='time-text'>{{item.beginTime}}</text>
+                <text class='place-text'>{{item.beginPlace}}</text>
+              </view>
+              <view class='item-middle'>
+                <text class='duration-text'>{{item.spend_time}}</text>
+                <image src='../../icons/长半箭头.png' class='duration-img'></image>
+                <text class='duration-text'>{{item.type}}</text>
+              </view>
+              <view class='item-right'>
+                <text class='time-text'>{{item.endTime}}</text>
+                <text class='place-text'>{{item.endPlace}}</text>
+              </view>
+            </view>
+            <view class='rightbox'>
+              <image src='../../icons/人民币.png' class='img2'></image>
+              <text class='price-text'>{{item.price}}</text>
+            </view>
+          </view>
+        </view>
+        <view wx:else>
+          <view class='notDirect-box'>
+            <view class='direct-box' bindtap="toTripDetailT" data-index="{{index}}">
+              <view class='left-box'>
+                <view class='item-left'>
+                  <text class='time-text'>{{item.firstTrip.beginTime}}</text>
+                  <text class='place-text'>{{item.firstTrip.beginPlace}}</text>
+                </view>
+                <view class='item-middle'>
+                  <text class='duration-text'>{{item.total_spendTime}}</text>
+                  <view class='change-box'>
+                    <text class='change-text'>{{item.firstTrip.endCity}}中转</text>
+                  </view>
+                  <text class='duration-text'>{{item.type}}</text>
+                </view>
+                <view class='item-right'>
+                  <text class='time-text'>{{item.secondTrip.endTime}}</text>
+                  <text class='place-text'>{{item.secondTrip.endPlace}}</text>
+                </view>
+              </view>
+              <view class='rightbox'>
+                <image src='../../icons/人民币.png' class='img2'></image>
+                <text class='price-text'>{{item.totalPrice}}</text>
+              </view>
+            </view>
+            <view class='showDetail' bindtap="showDetail" data-index="{{index}}">
+              <text class='show-text'>查看详细信息</text>
+              <image src='../../icons/下箭头.png' class='img2'></image>
+            </view>
+            <view class='doubletrip' hidden="{{item.hidden}}">
+              <view class="doubletrip-trip doubletrip-firsttrip">
+                <view class="doubletrip-trip-title">
+                  <view class="doubletrip-trip-title-label">1</view>
+                  <view class="doubletrip-trip-title-note">
+                    {{item.type}}
+                  </view>
+                </view>
+                <view class="doubletrip-trip-content">
+                  <view class="doubletrip-trip-left">
+                    <view class="doubletrip-trip-left-time time-text">{{item.firstTrip.beginTime}}</view>
+                    <view class="doubletrip-trip-left-place place-text">{{item.firstTrip.beginPlace}}</view>
+                  </view>
+                  <view class="doubletrip-trip-center">
+                    <view class="doubletrip-trip-center-text duration-text">{{item.firstTrip.spend_time}}</view>
+                    <image style="width:130rpx;height:10rpx;" src="/icons/长半箭头.png"></image>
+                  </view>
+                  <view class="doubletrip-trip-right">
+                    <view class="doubletrip-trip-right-time time-text">{{item.firstTrip.endTime}}</view>
+                    <view class="doubletrip-trip-right-place place-text">{{item.firstTrip.endPlace}}</view>
+                  </view>
+                </view>
+              </view>
+              <view class="doubletrip-middle">换乘</view>
+              <view class="doubletrip-trip doubletrip-secondtrip">
+                                <view class="doubletrip-trip-title">
+                  <view class="doubletrip-trip-title-label">2</view>
+                  <view class="doubletrip-trip-title-note">
+                    {{item.type}}
+                  </view>
+                </view>
+                <view class="doubletrip-trip-content">
+                  <view class="doubletrip-trip-left">
+                    <view class="doubletrip-trip-left-time time-text">{{item.secondTrip.beginTime}}</view>
+                    <view class="doubletrip-trip-left-place place-text">{{item.secondTrip.beginPlace}}</view>
+                  </view>
+                  <view class="doubletrip-trip-center">
+                    <view class="doubletrip-trip-center-text duration-text">{{item.secondTrip.spend_time}}</view>
+                    <image style="width:130rpx;height:10rpx;" src="/icons/长半箭头.png"></image>
+                  </view>
+                  <view class="doubletrip-trip-right">
+                    <view class="doubletrip-trip-right-time time-text">{{item.secondTrip.endTime}}</view>
+                    <view class="doubletrip-trip-right-place place-text">{{item.secondTrip.endPlace}}</view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
 </view>
 <view class='sort'>
- <button class="sort-btn {{currentSelectSortType == 'SortMoren' ? 'active' : ''}}" bindtap='selectedSortMoren' data-id='SortMoren'>默认</button>
- <button class="sort-btn {{currentSelectSortType == 'SortPrice' ? 'active' : ''}}" bindtap='selectedSortPrice' data-id='SortPrice'>
-  <view>价格</view>
- </button>
- <button class="sort-btn {{currentSelectSortType == 'SortDuration' ? 'active' : ''}}" bindtap='selectedSortDuration' data-id='SortDuration'>
-  <view>时长</view>
- </button>
- <button class="sort-btn {{currentSelectSortType == 'SortTime' ? 'active' : ''}}" bindtap='selectedSortTime' data-id='SortTime'>
-  <view>出发时间</view>
- </button>
- <button class="sort-btn {{currentSelectSortType == 'SortHot' ? 'active' : ''}}" bindtap='selectedSortHot' data-id='SortHot'>
-  <view>最火</view>
- </button>
+  <button class="sort-btn {{currentSelectSortType == '4' ? 'active' : ''}}" bindtap='selectedSortMoren' data-id='4'>默认</button>
+  <button class="sort-btn {{currentSelectSortType == '2' ? 'active' : ''}}" bindtap='selectedSortPrice' data-id='2'>
+    <view>价格</view>
+  </button>
+  <button class="sort-btn {{currentSelectSortType == '1' ? 'active' : ''}}" bindtap='selectedSortDuration' data-id='1'>
+    <view>时长</view>
+  </button>
+  <button class="sort-btn {{currentSelectSortType == '3' ? 'active' : ''}}" bindtap='selectedSortTime' data-id='3'>
+    <view>中转时间</view>
+  </button>
+  <button class="sort-btn {{currentSelectSortType == '5' ? 'active' : ''}}" bindtap='selectedSortHot' data-id='5'>
+    <view>最火</view>
+  </button>
 </view>
-<form wx:for="{{testArray1}}" wx:key="id">
-  <view class='form-box' >
-    <view wx:if="{{item.isDirect == true}}">
-      <view class='direct-box' bindtap="toTripDetail">
-        <view class='left-box'>
-          <view class='item-left'>
-            <text class='time-text'>{{item.beginTime}}</text>
-            <text class='place-text'>{{item.beginPlace}}</text>
-          </view>
-          <view class='item-middle'>
-            <text class='duration-text'>{{item.spend_time}}</text>
-            <image src='../../icons/长半箭头.png' class='duration-img'></image>
-            <text class='duration-text'>{{item.type}}</text>
-          </view>
-          <view class='item-right'>
-            <text class='time-text'>{{item.endTime}}</text>
-            <text class='place-text'>{{item.endPlace}}</text>
-          </view>
-        </view>
-        <view class='rightbox'>
-          <image src='../../icons/人民币.png' class='img2'></image>
-          <text class='price-text'>{{item.price}}</text>
-        </view>
+
+<view class="cur-toast" hidden="{{hideToast}}">
+  <view class="cur-toast-cancel" bindtap="hideToast"></view>
+  <view class="cur-toast-content">
+    <view class="cur-toast-title">选择详细行程</view>
+    <view class="cur-toast-options">
+      <view class="cur-toast-options-item" bindtap="chooseTrip" data-index="1">
+        第一程
       </view>
-    </view>
-    <view wx:else>
-      <view class='notDirect-box'>
-        <view class='direct-box' bindtap="toTripDetail">
-          <view class='left-box'>
-            <view class='item-left'>
-              <text class='time-text'>{{item.firstTrip.beginTime}}</text>
-              <text class='place-text'>{{item.firstTrip.beginPlace}}</text>
-            </view>
-            <view class='item-middle'>
-              <text class='duration-text'>{{item.total_spendTime}}</text>
-              <view class='change-box'>
-                <text class='change-text'>{{item.firstTrip.endCity}}中转</text>
-              </view>
-              <text class='duration-text'>{{item.type}}</text>
-            </view>
-            <view class='item-right'>
-              <text class='time-text'>{{item.secondTrip.endTime}}</text>
-              <text class='place-text'>{{item.secondTrip.endPlace}}</text>
-            </view>
-          </view>
-          <view class='rightbox'>
-            <image src='../../icons/人民币.png' class='img2'></image>
-            <text class='price-text'>{{item.totalPrice}}</text>
-          </view>
-        </view>
-        <view class='showDetail'>
-          <text class='show-text'>查看详细信息</text>
-          <image src='../../icons/下箭头.png' class='img2'></image>
-        </view>
+      <view class="cur-toast-options-item" bindtap="chooseTrip" data-index="2">
+        第二程
       </view>
-      
     </view>
   </view>
-</form>
+</view>

@@ -1,9 +1,9 @@
 <view class="container">
   <view class="map_container" style="width:100%;height:{{winHeight * 0.8}}px;">
-    <map id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="18" markers="{{markers}}" bindmarkertap="markertap" polyline="{{polyline}}" bindregionchange="regionchange" show-location style="width: 100%; height:{{winHeight}}px;"></map>
+    <map id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="16" markers="{{markers}}" bindmarkertap="markertap" polyline="{{polyline}}" bindregionchange="regionchange" show-location style="width: 100%; height:{{winHeight}}px;"></map>
   </view>
 </view>
-  <scroll-view class="info" bindtouchmove="touchMove" bindtouchend="touchEnd" style="top:{{top}}px;height:{{winHeight}}px">
+  <scroll-view class="info" bindtouchmove="touchMove" bindtouchend="touchEnd" style="top:{{top}}px;height:{{winHeight-54}}px">
     <view class="info-icon">
       <view class="info-icon-content"></view>
     </view>
@@ -11,7 +11,40 @@
       <text style="font-size:40rpx;font-weight:bold;">{{time}}</text>
       <text style="font-size:30rpx;">{{distance}}</text>
     </view>
-    <view class="note" style="height:800rpx;">
+    <view class="note">
       <text>{{note}}</text>
     </view>
+    <scroll-view scroll-y class="path">
+      <view wx:for="{{paths}}">
+        <view wx:if="{{item.isWalking == true}}" class="path-item path-walking">
+          <image style="width:50rpx;height:50rpx;margin-right:30rpx;" src="/images/步行_灰.png"></image>
+          <view class="path-item-content">
+            <view class="path-item-content-position">{{item.originName}}</view>
+            <view class="path-item-content-note">步行{{item.distance}}米（{{item.duration}}分钟）</view>
+            <view class="path-item-content-position">{{item.destinationName}}</view>
+          </view>
+        </view>
+        <view wx:elif="{{item.isWalking == false}}" class="path-item path-bus">
+          <image style="width:50rpx;height:50rpx;margin-right:30rpx;" src="/images/公交_蓝.png"></image>
+          <view class="path-item-content">
+            <view class="path-item-content-label">
+            <text>{{item.name}}</text>
+            </view>
+            <view class="path-item-content-info">
+              <view class="path-item-content-info-left">{{item.num}}站</view>
+              <view class="path-item-content-info-right">({{item.duration}}分钟)</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
   </scroll-view>
+  <view class="bottom-box">
+  <view class="bottom-left" bindtap="showDetail">
+    <image style="width:20rpx;height:20rpx;margin-right:10rpx;" src="{{fullScreen || halfScreen ? '/images/显示地图.png' : '/images/显示详情.png'}}"></image>
+    <text>路线详情</text>
+  </view>
+  <view class="bottom-right" bindtap="submit">
+    确定选择
+  </view>
+  </view>

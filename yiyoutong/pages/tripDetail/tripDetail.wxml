@@ -2,7 +2,7 @@
   <view class="sign">
     <view class="sign-header">
       <view class="sign-header-left">
-        <image style="width:40rpx;height:40rpx;" src="/images/飞机_白.png"></image>
+        <image style="width:40rpx;height:40rpx;" src="{{type == '飞机'?'/images/飞机_白.png':'/images/火车_白.png'}}"></image>
         <text>{{key}}</text>
       </view>
       <view class="sign-header-right">
@@ -10,8 +10,8 @@
       </view>
     </view>
     <view class="signName">
-      <text>{{src}}</text>
-      <text>{{dst}}</text>
+      <text style='text-align:right;'>{{src}}</text>
+      <text style='text-align:left;'>{{dst}}</text>
     </view>
     <view class="signLabel">
       <text class="sLabel">start</text>
@@ -34,11 +34,11 @@
     <view class="list" wx:for="{{srcList}}">
       <image data-index="{{index}}" class="listIcon redIcon" src="/images/减.png" bindtap="deleteSrcTrip"></image>
       <view class="listContent">
-        <text bindtap="showModal">{{item.src}}</text>
-        <image style="width:60rpx;height:60rpx;" src="/images/飞机.png"></image>
-        <text style='text-align:right;' bindtap="showModal">{{item.dst}}</text>
+        <text bindtap="showModal" data-index="{{index}}" data-type="src" data-array="src">{{item.src}}</text>
+        <image style="width:50rpx;height:50rpx;" src="/images/前进.png"></image>
+        <text style='text-align:right;' bindtap="showModal" data-index="{{index}}" data-type="dst" data-array="src">{{item.dst}}</text>
       </view>
-      <view class="listDetail" bindtap="toTransport">
+      <view class="listDetail" bindtap="toTransport" data-index="{{index}}" data-array="src">
         <text>行程详情</text>
         <image style="width:30rpx;height:30rpx;" src="/images/右空箭头.png"></image>
       </view>
@@ -54,11 +54,11 @@
     <view class="list" wx:for="{{dstList}}" hidden="{{isDstNull}}">
       <image index="{{index}}" class="listIcon redIcon" src="/images/减.png"></image>
       <view class="listContent">
-        <text bindtap="showModal">{{item.src}}</text>
+        <text bindtap="showModal" data-index="{{index}}" data-type="src" data-array="dst">{{item.src}}</text>
         <image style="width:60rpx;height:60rpx;" src="/images/飞机.png"></image>
-        <text style='text-align:right;' bindtap="showModal">{{item.dst}}</text>
+        <text style='text-align:right;' bindtap="showModal" data-index="{{index}}" data-type="dst" data-array="dst">{{item.dst}}</text>
       </view>
-      <view class="listDetail" bindtap="toTransport">
+      <view class="listDetail" bindtap="toTransport" data-index="{{index}}" data-array="dst">
         <text>行程详情</text>
         <image style="width:30rpx;height:30rpx;" src="/images/右空箭头.png"></image>
       </view>
@@ -71,7 +71,7 @@
     </view>
   </view>
   <view class="btn-container">
-    <button class="submit-btn">提交</button>
+    <button class="submit-btn" bindtap="submit">提交</button>
   </view>
 </view>
 
@@ -99,11 +99,15 @@
         </view>
         <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput" style="color:black;font-size:14px;">取消</view>
       </view>
-      <view class="search-result" wx:if="{{inputVal.length > 0}}">
-        <view class="search-result-item" wx:for="{{searchResult}}">
-          <text>{{item}}</text>
+      <scroll-view scroll-y class="search-result" wx:if="{{inputVal.length > 0}}">
+        <view class="search-result-item" wx:for="{{searchResult}}" bindtap="searchResultClick" data-value="{{item.name}}">
+          <image style="width:40rpx;height:40rpx;margin-right:20rpx" src="/images/位置.png"></image>
+          <view class="search-result-item-content">
+          <view class="search-result-item-name">{{item.name}} {{item.pName}} {{item.cityName}}</view>
+          <view class="search-result-item-type">{{item.type}}</view>
+          </view>
         </view>
-      </view>
+      </scroll-view>
 
       <scroll-view class="modals-scroll-view" scroll-y="true" hidden="true" scroll-into-view="{{scrollId}}">
         <view class="modals-container hot-city">

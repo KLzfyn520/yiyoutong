@@ -2,8 +2,8 @@
   <view class="option">
 
   </view>
-  <view class="history">
-    <view class="history-item" wx:for="{{history}}">
+  <scroll-view scroll-y class="history">
+    <view class="history-item" wx:for="{{history}}" data-index="{{index}}" bindtap="toTripDetail">
       <view class="time">
         <text class="time-day">{{item.day}}</text>
         <text class="time-month">{{item.month}}月</text>
@@ -28,5 +28,5 @@
         <text class="mark-text">截止</text>
       </view>
     </view>
-  </view>
+  </scroll-view>
 </view>

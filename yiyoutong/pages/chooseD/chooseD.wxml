@@ -1,23 +1,4 @@
 <view class="container">
-<image class='Img' src='../../icons/夹子.png'></image>
-<view class='choose-transport'>
- <button class="transport-btn {{currentSelectTripType == 'moren' ? 'active' : ''}}" bindtap='selectedMoren' data-id='moren'>
-  <image class='btnImg' src='../../icons/默认.png'></image>
-  <view>默认</view>
- </button>
- <button class="transport-btn {{currentSelectTripType == 'feiji' ? 'active' : ''}}" bindtap='selectedFeiJi' data-id='feiji'>
-  <image class='btnImg' src='../../icons/飞机.png'></image>
-  <view>飞机</view>
- </button>
- <button class="transport-btn {{currentSelectTripType == 'huoche' ? 'active' : ''}}" bindtap='selectedHuoChe' data-id='huoche'>
-  <image class='btnImg' src='../../icons/火车.png'></image>
-  <view>火车</view>
- </button>
- <button class="transport-btn {{currentSelectTripType == 'qiche' ? 'active' : ''}}" bindtap='selectedQiChe' data-id='qiche'>
-  <image class='btnImg' src='../../icons/巴士.png'></image>
-  <view>汽车</view>
- </button>
-</view>
 <form bindsubmit="formSubmit" bindreset="formReset" class='form-content'>
   <view class='city-flex-box'>
     <input value='{{begin}}' class='began-city' name='beginCity' disabled='disabled' data-choose="begin" bindtap='showModal'></input>
@@ -29,8 +10,7 @@
    <view class='flex-box-header'>选择出行类型</view>
    <radio-group class="radio-group" bindchange="radioChange">
      <label class="radio" wx:for="{{items}}" wx:key="{{items.name}}">
-       <radio value="{{item.id}}" checked="{{item.id == itemId}}"/>
-       {{item.value}}
+       <text>{{item.value}}</text><radio value="{{item.id}}" checked="{{item.id == itemId}}" color="#ee7f5d"/>
      </label>
    </radio-group>
   </view>
@@ -38,22 +18,12 @@
   <button formType="submit" class='btn-query' bindtap='toChooseT'>确定</button>
   </view>
 </form>
-<view class='navigation-bar'>
-  <button class='btn1'>
-   <image class='btnImg' src='../../icons/arrange-schedule1.png'></image>
-   <view>行程安排</view>
-  </button>
-  <button class='btn2' bindtap="toTripHistory">
-   <image class='btnImg' src='../../icons/my-schedule1.png'></image>
-   <view>我的行程</view>
-  </button>
-</view>
 </view>
 
 <view class="modals modals-bottom-dialog" hidden="{{hideModal}}">
   <view class="modals-cancel" bindtap="hideModal"></view>
   <view class="bottom-dialog-body bottom-pos" animation="{{animationData}}">
-    <view class="bottom-dialog-content" style="height:600px;">
+    <view class="bottom-dialog-content" style="height:500px;">
       <view class="modals-title" hidden="{{inputShowed}}">
         <text>地点选择</text>
       </view>
@@ -76,7 +46,8 @@
       </view>
       <view class="search-result" wx:if="{{inputVal.length > 0}}">
         <view class="search-result-item" wx:for="{{searchResult}}">
-          <text>{{item}}</text>
+          <view class="search-result-item-type">{{item.type}}</view>
+          <view class="search-result-item-name">{{item.name}}</view>
         </view>
       </view>
 
@@ -148,3 +119,4 @@
     </view>
   </view>
 </view>
+

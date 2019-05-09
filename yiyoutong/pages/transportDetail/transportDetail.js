@@ -1,6 +1,7 @@
+const app = getApp()
 const date = new Date()
 const month = date.getMonth()
-const day = date.getDay()
+const day = date.getDate()
 const dates = []
 const hours = []
 const minutes = []
@@ -28,6 +29,9 @@ Page({
   data: {
     winWidth: 0,
     winHeight: 0,
+    journeyId: 0,
+    city: '',
+
     src: "东站",
     dst: "川大",
     means: [{
@@ -74,17 +78,98 @@ Page({
     value: [1, 1, 1],
     dates,
     hours,
-    minutes
+    minutes,
+    result: {},
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    console.log(options)
+    var journeyId = options.journeyId
+    var src = options.src
+    var dst = options.dst
+    var city = options.city
     var that = this;
+    that.setData({
+      src: src,
+      dst: dst,
+      journeyId:journeyId,
+      city: city,
+    })
+    wx.request({
+      url: app.globalData.url + '/getBusRoute',
+      data: {
+        origin:src,
+        destination:dst,
+        city: city
+      },
+      header: {},
+      method: 'GET',
+      dataType: 'json',
+      responseType: 'text',
+      success: function(res) {
+        console.log(res)
+        var means = []
+        var result = res.data.result
+        var route = result.route
+        var transits = route.transits
+        for(var i = 0;i<transits.length;i++){
+          var transitItem = transits[i]
+          var routes = []
+          for(var j = 0;j<transitItem.segments[0].bus.buslines.length;j++){
+            var lineItem = transitItem.segments[0].bus.buslines[j]
+            if (lineItem.type == "普通公交线路"){
+              var routeItem = {
+                type: 0,
+                detail: lineItem.name.split('(')[0],
+                color: "white"
+              }
+            }else if(lineItem.type == "地铁线路"){
+              var routeItem = {
+                type: 1,
+                detail: lineItem.name.split('(')[0],
+                color: "#0A52BE"
+              }
+            }
+            routes.push(routeItem)
+          }
+          var meanItem = {
+            id: i,
+            type: "公交",
+            duration: transitItem.duration,
+            time: transitItem.duration > 3600 ? Math.floor(transitItem.duration / 3600) + '时' + Math.floor(transitItem.duration % 3600 / 60) + '分' : Math.floor(transitItem.duration / 60) + '分钟',
+            distance: transitItem.distance + '公里',
+            money: transitItem.cost + '元',
+            note: "无",
+            image: "/images/公交.png",
+            route: routes,
+            isTransit: true,
+            isFastest: false,
+            isRecom: false
+          }
+          means.push(meanItem)
+        }
+        var fastestIndex = 0;
+        var recIndex = 0
+        for(var i = 0;i<means.length;i++){
+          if(means[i].duration < means[fastestIndex].duration){
+            fastestIndex = i
+          }
+        }
+        means[fastestIndex].isFastest = true
+        means[recIndex].isRecom = true
+        that.setData({
+          result: result,
+          means: means
+        })
+      },
+      fail: function(res) {},
+      complete: function(res) {},
+    })
     wx.getSystemInfo({
       success: function(res) {
-
         that.setData({
           winWidth: res.windowWidth,
           winHeight: res.windowHeight,
@@ -101,9 +186,12 @@ Page({
     })
     this.hideMethodFilter()
   },
-  toPathDetail: function() {
+  toPathDetail: function(e) {
+    var index = e.currentTarget.dataset.index
+    var result = this.data.result
+    var transit = result.route.transits[index]
     wx.navigateTo({
-      url: '/pages/transportPath/transportPath',
+      url: '/pages/transportPath/transportPath' + '?transit=' + JSON.stringify(transit) + '&src=' + this.data.src + '&dst=' + this.data.dst + '&journeyId=' + this.data.journeyId + '&city=' + this.data.city,
     })
   },
   showMethodFilter: function() {
@@ -203,8 +291,7 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
-
+  onReady: function(options) {
   },
 
   /**

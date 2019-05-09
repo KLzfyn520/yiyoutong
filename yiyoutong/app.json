@@ -3,6 +3,7 @@
     "pages/chooseD/chooseD",
     "pages/chooseT/chooseT",
     "pages/tripDetail/tripDetail",
+    "pages/tripDetailTwo/tripDetailTwo",
     "pages/transportDetail/transportDetail",
     "pages/transportPath/transportPath",
     "pages/tripHistory/tripHistory"
