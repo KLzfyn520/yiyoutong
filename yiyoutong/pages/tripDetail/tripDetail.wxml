@@ -52,7 +52,7 @@
   </view>
   <view class="dstContainer" hidden="{{activeIndex != 1}}">
     <view class="list" wx:for="{{dstList}}" hidden="{{isDstNull}}">
-      <image index="{{index}}" class="listIcon redIcon" src="/images/减.png"></image>
+      <image data-index="{{index}}" class="listIcon redIcon" src="/images/减.png" bindtap="deleteDstTrip"></image>
       <view class="listContent">
         <text bindtap="showModal" data-index="{{index}}" data-type="src" data-array="dst">{{item.src}}</text>
         <image style="width:60rpx;height:60rpx;" src="/images/飞机.png"></image>
@@ -63,7 +63,7 @@
         <image style="width:30rpx;height:30rpx;" src="/images/右空箭头.png"></image>
       </view>
     </view>
-    <view class="list" style="border-bottom:1px solid #D1D1D2;">
+    <view class="list" bindtap="addDstTrip">
       <image class="listIcon greenIcon" src="/images/加.png"></image>
       <view class="listContent">
         <text>添加行程</text>

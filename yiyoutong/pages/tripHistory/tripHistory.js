@@ -49,6 +49,7 @@ Page({
             for(var i = 0;i<journeys.length;i++){
               var journeyItem = journeys[i]
               var historyItem = { 
+                journeyId: journeyItem.journeyId,
                 day: journeyItem.travelDate.split(' ')[0].split('-')[2], 
                 month: journeyItem.travelDate.split(' ')[0].split('-')[1], 
                 year: journeyItem.travelDate.split(' ')[0].split('-')[0],
@@ -112,12 +113,12 @@ Page({
               }else{
                 historyItem.isOver = false
               }
-              
+
               if (historyItem.transportation != undefined) {
-                history.isDirect = historyItem.transportation.isDirect
+                historyItem.isDirect = historyItem.transportation.isDirect
                 if (historyItem.isDirect) {
-                  history.srcTime = historyItem.transportation.beginTime
-                  history.dstTime = historyItem.transportation.endTime
+                  historyItem.srcTime = historyItem.transportation.beginTime
+                  historyItem.dstTime = historyItem.transportation.endTime
                 } else if (!historyItem.isDirect) {
                   historyItem.srcTime = historyItem.transportation.firstTrip.beginTime
                   historyItem.dstTime = historyItem.transportation.secondTrip.endTime
@@ -177,9 +178,17 @@ Page({
     var historyItem = this.data.history[index]
     var time = historyItem.year + '-' + historyItem.month + '-' + historyItem.day
     var item = historyItem.transportation
-    wx.navigateTo({
-      url: '/pages/tripDetail/tripDetail' + '?item=' + JSON.stringify(item) + '&time=' + time
-    })
+    var journeyId = historyItem.journeyId
+    var isDirect = historyItem.isDirect
+    if(isDirect){
+      wx.navigateTo({
+        url: '/pages/tripDetail/tripDetail' + '?item=' + JSON.stringify(item) + '&time=' + time + '&journeyId=' + journeyId
+      })
+    }else{
+      wx.navigateTo({
+        url: '/pages/tripDetailTwo/tripDetailTwo' + '?item=' + JSON.stringify(item) + '&time=' + time + '&journeyId=' + journeyId
+      })
+    }
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

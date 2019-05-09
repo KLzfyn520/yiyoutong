@@ -9,7 +9,7 @@ Page({
     winWidth: 0,
     winHeight: 0,
     nextPage: false,
-    journeyId: 0,
+    journeyId: '',
     userId: 0,
     arrayItem: {},
     time: '',
@@ -91,84 +91,9 @@ Page({
     var typeT = item.type.split('转')[1]
 
     var time = options.time
+    var journeyId = options.journeyId
 
     var that = this;
-    var times = time.split('-')
-    var date_time = ''
-    for (var i = 0; i < times.length - 1; i++) {
-      date_time = date_time + times[i] + '/'
-    }
-    date_time = date_time + times[times.length - 1]
-    wx.getStorage({
-      key: 'userId',
-      success: function (res) {
-        var userId = res.data
-        console.log(that.data.srcCity)
-        console.log(that.data.dstCity)
-        console.log(date_time)
-        console.log(res.data)
-        that.setData({
-          userId: userId
-        })
-        wx.request({
-          url: app.globalData.url + '/initJourney',
-          data: {
-            originCity: that.data.srcCity,
-            destCity: that.data.dstCity,
-            date: date_time,
-            userid: userId
-          },
-          header: {},
-          method: 'GET',
-          dataType: 'json',
-          responseType: 'text',
-          success: function (res) {
-            var journeyId = res.data.result.journeyid
-            console.log(journeyId)
-            console.log("成功初始化城市间交通")
-            that.setData({
-              journeyId: journeyId
-            })
-          },
-          fail: function (res) { },
-          complete: function (res) { },
-        })
-      },
-      fail: function (res) {
-        console.log("failed")
-        wx.login({
-          success: function (res) {
-            if (res.code) {
-              //发起网络请求
-              console.log(res.code)
-              var js_code = res.code
-              wx.request({
-                url: app.globalData.url + '/login',
-                data: {
-                  js_code: js_code
-                },
-                header: {
-                },
-                method: 'GET',
-                dataType: 'json',
-                responseType: 'text',
-                success: function (res) {
-                  console.log(res)
-                  wx.setStorage({
-                    key: 'userId',
-                    data: res.data.result
-                  })
-                },
-                fail: function (res) { },
-                complete: function (res) { },
-              })
-            } else {
-              console.log('获取用户登录态失败！' + res.errMsg)
-            }
-          }
-        })
-      }
-    })
 
     that.setData({
       src: src,
@@ -188,8 +113,88 @@ Page({
       keyT: keyT,
       typeT: typeT,
       time: time,
+      journeyId: journeyId,
       arrayItem: item
     })
+
+    var times = time.split('-')
+    var date_time = ''
+    for (var i = 0; i < times.length - 1; i++) {
+      date_time = date_time + times[i] + '/'
+    }
+    date_time = date_time + times[times.length - 1]
+    if(that.data.journeyId == undefined){
+      wx.getStorage({
+        key: 'userId',
+        success: function (res) {
+          var userId = res.data
+          console.log(that.data.srcCity)
+          console.log(that.data.dstCity)
+          console.log(date_time)
+          console.log(res.data)
+          that.setData({
+            userId: userId
+          })
+          wx.request({
+            url: app.globalData.url + '/initJourney',
+            data: {
+              originCity: that.data.srcCity,
+              destCity: that.data.dstCity,
+              date: date_time,
+              userid: userId
+            },
+            header: {},
+            method: 'GET',
+            dataType: 'json',
+            responseType: 'text',
+            success: function (res) {
+              var journeyId = res.data.result.journeyid
+              console.log(journeyId)
+              console.log("成功初始化城市间交通")
+              that.setData({
+                journeyId: journeyId
+              })
+            },
+            fail: function (res) { },
+            complete: function (res) { },
+          })
+        },
+        fail: function (res) {
+          console.log("failed")
+          wx.login({
+            success: function (res) {
+              if (res.code) {
+                //发起网络请求
+                console.log(res.code)
+                var js_code = res.code
+                wx.request({
+                  url: app.globalData.url + '/login',
+                  data: {
+                    js_code: js_code
+                  },
+                  header: {
+                  },
+                  method: 'GET',
+                  dataType: 'json',
+                  responseType: 'text',
+                  success: function (res) {
+                    console.log(res)
+                    wx.setStorage({
+                      key: 'userId',
+                      data: res.data.result
+                    })
+                  },
+                  fail: function (res) { },
+                  complete: function (res) { },
+                })
+              } else {
+                console.log('获取用户登录态失败！' + res.errMsg)
+              }
+            }
+          })
+        }
+      })
+    }
 
 
     wx.getLocation({

@@ -53,7 +53,7 @@
   </view>
   <view class="dstContainer" hidden="{{activeTab != 1}}">
     <view class="list" wx:for="{{dstList}}" hidden="{{isDstNull}}">
-      <image index="{{index}}" class="listIcon redIcon" src="/images/减.png" bindtap="deleteDstTrip"></image>
+      <image data-index="{{index}}" class="listIcon redIcon" src="/images/减.png" bindtap="deleteDstTrip"></image>
       <view class="listContent">
         <text bindtap="showModal" data-index="{{index}}" data-type="src" data-array="dst">{{item.src}}</text>
         <image style="width:60rpx;height:60rpx;" src="/images/前进.png"></image>
@@ -127,7 +127,7 @@
   </view>
   <view class="dstContainer" hidden="{{activeTabT != 1}}">
     <view class="list" wx:for="{{dstListT}}">
-      <image index="{{index}}" class="listIcon redIcon" src="/images/减.png" bindtap="deleteDstTripT"></image>
+      <image data-index="{{index}}" class="listIcon redIcon" src="/images/减.png" bindtap="deleteDstTripT"></image>
       <view class="listContent">
         <text bindtap="showModalT" data-index="{{index}}" data-type="src" data-array="dst">{{item.src}}</text>
         <image style="width:60rpx;height:60rpx;" src="/images/前进.png"></image>

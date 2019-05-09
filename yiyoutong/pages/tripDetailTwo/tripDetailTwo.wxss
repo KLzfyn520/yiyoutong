@@ -164,7 +164,8 @@
 .btn-content{
   width:80%;
   color:white;
-  background-color: #0076FF;
+  /* background-color: #0076FF; */
+  background-color:#ee7f5d;
 }
 
 

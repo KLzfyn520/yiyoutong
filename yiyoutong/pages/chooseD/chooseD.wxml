@@ -2,7 +2,7 @@
 <form bindsubmit="formSubmit" bindreset="formReset" class='form-content'>
   <view class='city-flex-box'>
     <input value='{{begin}}' class='began-city' name='beginCity' disabled='disabled' data-choose="begin" bindtap='showModal'></input>
-    <image class='arrow' src='../../icons/箭头.png'></image>
+    <image class='arrow' src='/icons/箭头.png'></image>
     <input value='{{end}}' class='end-city' name='endCity' disabled='disabled' data-choose="end" bindtap='showModal'></input>
   </view>
   <input class='time' value='{{today}}' disabled='disabled' bindtap='showTimeModal'></input>

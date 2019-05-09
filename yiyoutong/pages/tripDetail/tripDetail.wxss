@@ -156,7 +156,8 @@
 .submit-btn{
   width:80%;
   color:white;
-  background-color: #0076FF;
+  /* background-color: #0076FF; */
+  background-color:#ee7f5d;
 }
 
 .modals{position:fixed; z-index: 999; top:0; left: 0; right:0; bottom: 0;}
